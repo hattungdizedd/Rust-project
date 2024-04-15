@@ -1,3 +1,6 @@
+// Project quản lý sinh viên bằng ngôn ngữ Rust
+
+
 #[derive(Debug, PartialEq)] // Để có thể sử dụng assert_eq! với Student
 pub struct Student {
     pub name: String,
@@ -6,6 +9,7 @@ pub struct Student {
 }
 
 impl Student {
+    // Phương thức khởi tạo mới cho Student
     pub fn new(name: &str, age: u32, score: u32) -> Student {
         Student {
             name: name.to_string(),
@@ -15,11 +19,13 @@ impl Student {
     }
 }
 
+// Định nghĩa các unit tests cho cấu trúc Student
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
+    // Test tạo mới sinh viên
     fn test_student_creation() {
         let student = Student::new("John", 18, 80);
         assert_eq!(student.name, "John");
@@ -28,6 +34,7 @@ mod tests {
     }
 
     #[test]
+    // Test so sánh hai sinh viên có giống nhau không
     fn test_student_equality() {
         let student1 = Student::new("Alice", 17, 90);
         let student2 = Student::new("Alice", 17, 90);
@@ -37,29 +44,35 @@ mod tests {
 
 use std::collections::HashMap;
 
+// Cấu trúc lưu trữ danh sách sinh viên
 pub struct Students {
     pub class: HashMap<String, Student>,
 }
 
 impl Students {
+    // Phương thức khởi tạo mới cho Students
     pub fn new() -> Self {
         Self {
             class: HashMap::new(),
         }
     }
 
+    // Phương thức thêm sinh viên mới vào danh sách
     pub fn add(&mut self, student: Student) {
         self.class.insert(student.name.clone(), student);
     }
 
+    // Phương thức xem tất cả sinh viên trong danh sách
     pub fn view_all(&self) -> Vec<&Student> {
         self.class.values().collect()
     }
 
+    // Phương thức xóa sinh viên khỏi danh sách
     pub fn remove(&mut self, name: &str) -> bool {
         self.class.remove(name).is_some()
     }
 
+    // Phương thức chỉnh sửa thông tin của sinh viên trong danh sách
     pub fn edit(&mut self, name: &str, age: u32, score: u32) -> bool {
         match self.class.get_mut(name) {
             Some(student) => {
@@ -72,9 +85,11 @@ impl Students {
     }
 }
 
+// Module quản lý các hành động liên quan đến sinh viên
 mod manager {
     use super::*;
 
+    // Hàm thêm sinh viên mới vào danh sách
     pub fn add_student(students: &mut Students) {
         println!("Enter name of Student:");
         let name = match get_input() {
@@ -98,12 +113,14 @@ mod manager {
         students.add(student);
     }
 
+    // Hàm xem tất cả sinh viên trong danh sách
     pub fn view(students: &Students) {
         for student in students.view_all() {
             println!("{:#?}", student);
         }
     }
 
+    // Hàm xóa sinh viên khỏi danh sách
     pub fn remove_student(students: &mut Students) {
         println!("Enter name of Student to remove:");
         let name = match get_input() {
@@ -117,6 +134,7 @@ mod manager {
         }
     }
 
+    // Hàm chỉnh sửa thông tin của sinh viên trong danh sách
     pub fn edit_student(students: &mut Students) {
         println!("Enter name of Student to edit:");
         let name = match get_input() {
@@ -144,6 +162,7 @@ mod manager {
     }
 }
 
+// Hàm utility để đọc đầu vào từ người dùng
 fn get_input() -> Option<String> {
     let mut buffer = String::new();
     match std::io::stdin().read_line(&mut buffer) {
@@ -162,6 +181,7 @@ fn get_input() -> Option<String> {
     }
 }
 
+// Hàm utility để đọc một số nguyên dương từ người dùng
 fn get_int() -> Option<u32> {
     match get_input() {
         Some(input) => match input.parse::<u32>() {
@@ -175,6 +195,7 @@ fn get_int() -> Option<u32> {
     }
 }
 
+// Enum Manager và các phương thức của nó
 enum Manager {
     AddStudent,
     ViewStudent,
@@ -183,6 +204,7 @@ enum Manager {
 }
 
 impl Manager {
+    // Phương thức hiển thị menu lựa chọn
     fn show() {
         println!("\n== Manager Panel ==");
         println!("1. Add Student");
@@ -193,6 +215,7 @@ impl Manager {
         println!("Please Enter Your Choice:");
     }
 
+    // Phương thức xử lý lựa chọn của người dùng
     fn choice(input: &str) -> Option<Manager> {
         match input {
             "1" => Some(Manager::AddStudent),
@@ -208,6 +231,9 @@ impl Manager {
     }
 }
 
+// Hàm chính chạy ứ
+
+ng dụng quản lý sinh viên
 fn run_program() {
     let mut students = Students::new();
     loop {
@@ -229,7 +255,10 @@ fn run_program() {
     }
 }
 
+// Hàm main của chương trình
 fn main() {
-    run_program();
+    run_program(); // Chạy chương trình quản lý sinh viên
     println!("Exiting program.");
 }
+
+
